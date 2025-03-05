@@ -2,7 +2,7 @@
 
 **The challenge:** 
 
-“Offer a comprehensive analysis of the diverse characteristics of American entrepreneurs,  including aspects such as their backgrounds, co-founder dynamics, industry preferences, impact on  employment, market selection strategies, ambitions, and factors influencing their decision to  discontinue their ventures. Utilize all available variables from the Global Entrepreneurship Monitor  (GEM) dataset and feel free to enhance your analysis by integrating it with additional relevant  datasets.” 
+“Offer a comprehensive analysis of the diverse characteristics of American entrepreneurs, including aspects such as their backgrounds, co-founder dynamics, industry preferences, impact on employment, market selection strategies, ambitions, and factors influencing their decision to discontinue their ventures. Utilize all available variables from the Global Entrepreneurship Monitor (GEM) dataset and feel free to enhance your analysis by integrating it with additional relevant datasets.” 
 
 **The Deliverable:** 
 
