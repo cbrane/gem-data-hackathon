@@ -366,7 +366,100 @@ ambition_profile = pd.crosstab(
 ) * 100
 ```
 
-## 7. Supplemental Datasets
+## 7. Temporal and Regional Entrepreneurship Analysis
+
+This section addresses the comparative analysis of entrepreneurial activity across time and regions, with industry-specific insights.
+
+### Objectives
+- Track entrepreneurial activity trends over time (2015-2021)
+- Compare new vs. established business patterns across regions
+- Identify regional industry specialization and gaps
+- Analyze the evolution of entrepreneurship before and after major events (e.g., COVID-19)
+
+### Methods
+1. **Temporal Trend Analysis**
+   - Track new and established entrepreneurship rates by year
+   - Compare entrepreneurial activity growth/decline across different regions
+   - Identify seasonal and cyclical patterns in business formation
+   - Examine COVID-19 impact on entrepreneurial activity by industry
+
+2. **Regional Comparison**
+   - Calculate regional entrepreneurship density (entrepreneurs per capita)
+   - Compare regional industry preferences and specialization
+   - Identify high-growth entrepreneurial hubs
+   - Analyze the relationship between regional economic factors and entrepreneurship
+
+3. **Industry Evolution**
+   - Track industry distribution changes over time
+   - Identify emerging and declining industries by region
+   - Compare industry preferences between new and established entrepreneurs
+   - Analyze industry resilience during economic shifts
+
+### Code Structure
+```python
+# Time series analysis of entrepreneurship
+# Create yearly entrepreneurship rates
+yearly_rates = gem_data.groupby('year').agg({
+    'new_entrepreneur': lambda x: (x == 'Yes').mean() * 100,
+    'established_entrepreneur': lambda x: (x == 'Yes').mean() * 100,
+    'weight': 'sum'
+})
+
+# Regional comparison over time
+regional_trends = pd.crosstab(
+    index=[gem_data['year'], gem_data['region']],
+    columns=gem_data['new_entrepreneur'],
+    values=gem_data['weight'],
+    aggfunc='sum',
+    normalize='index'
+) * 100
+
+# Compare COVID impact (pre vs. post 2020)
+pre_covid = gem_data[gem_data['year'] < 2020]
+post_covid = gem_data[gem_data['year'] >= 2020]
+
+covid_impact = pd.DataFrame({
+    'pre_covid_new': pre_covid.groupby('new_entrepreneur_industry')['weight'].sum() / pre_covid['weight'].sum() * 100,
+    'post_covid_new': post_covid.groupby('new_entrepreneur_industry')['weight'].sum() / post_covid['weight'].sum() * 100,
+    'pre_covid_established': pre_covid.groupby('established_entrepreneur_industry')['weight'].sum() / pre_covid['weight'].sum() * 100,
+    'post_covid_established': post_covid.groupby('established_entrepreneur_industry')['weight'].sum() / post_covid['weight'].sum() * 100
+})
+covid_impact['new_pct_change'] = (covid_impact['post_covid_new'] - covid_impact['pre_covid_new']) / covid_impact['pre_covid_new'] * 100
+covid_impact['established_pct_change'] = (covid_impact['post_covid_established'] - covid_impact['pre_covid_established']) / covid_impact['pre_covid_established'] * 100
+
+# Regional industry specialization
+regional_industry = pd.crosstab(
+    index=gem_data['region'],
+    columns=gem_data['new_entrepreneur_industry'],
+    values=gem_data['weight'],
+    aggfunc='sum',
+    normalize='index'
+) * 100
+
+# Compare new vs. established business by region and industry
+entrepreneur_type_region = pd.crosstab(
+    index=[gem_data['region'], gem_data['new_entrepreneur_industry']],
+    columns='count',
+    values=gem_data['weight'],
+    aggfunc='sum'
+)
+established_type_region = pd.crosstab(
+    index=[gem_data['region'], gem_data['established_entrepreneur_industry']],
+    columns='count',
+    values=gem_data['weight'],
+    aggfunc='sum'
+)
+region_industry_comparison = pd.merge(
+    entrepreneur_type_region,
+    established_type_region,
+    left_index=True,
+    right_index=True,
+    suffixes=('_new', '_established')
+)
+region_industry_comparison['established_to_new_ratio'] = region_industry_comparison['count_established'] / region_industry_comparison['count_new']
+```
+
+## 8. Supplemental Datasets
 
 This section addresses the challenge statement's invitation to "enhance your analysis by integrating it with additional relevant datasets."
 
@@ -392,7 +485,7 @@ To enhance our analysis, we propose integrating the following external data sour
    - Funding accessibility by demographic group
    - Relation between external funding and entrepreneur success
 
-## 8. Advanced Analytics Opportunities
+## 9. Advanced Analytics Opportunities
 
 We can extend our analysis with the following advanced techniques:
 
@@ -416,7 +509,7 @@ We can extend our analysis with the following advanced techniques:
    - Analyze spatial clustering of entrepreneurs
    - Identify regional entrepreneurial ecosystems
 
-## 9. Policy Implications Analysis
+## 10. Policy Implications Analysis
 
 Our analysis can inform policy through these approaches:
 
