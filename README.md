@@ -79,8 +79,8 @@ Our analysis revealed several important patterns in American entrepreneurship:
 For complete findings, please see `documentation/comprehensive_gem_analysis.md`.
 
 ## Team
-- Connor Raney (https://github.com/cbrane/)
-- Arman Ozsu (https://github.com/Arman0z)
+- Connor Raney (https://github.com/cbrane/) - Code (all Python code in repo) & Analysis
+- Arman Ozsu (https://github.com/Arman0z) - Code (Data Cleaning in R, Python version in repo) & Analysis
 
 ## Hackathon Information
 - **Submission Deadline**: March 9, 2025, 9 PM ET
